@@ -52,8 +52,8 @@ public class FilaFifo<T> {
 		}
 		No<T> first = this.first;
 		this.first = first.getNext();
-
 		this.size--;
+
 		return first;
 	}
 
@@ -62,14 +62,19 @@ public class FilaFifo<T> {
 			return;
 		}
 		No<T> first = this.first;
-		first = first.getNext();
-		this.size--;
+		while (first != null) {
+			No<T> second = this.first.getNext();
+			this.first = second;
+			this.size--;
 
-		if (first.getBitR()) {
-			first.setBitR(false);
-			enqueue(first);
-		} else {
-			first.clearNode();
+			if (first.getBitR()) {
+				first.setBitR(false);
+				enqueue(first);
+			} else {
+				first.clearNode();
+			}
+
+			first = second;
 		}
 	}
 

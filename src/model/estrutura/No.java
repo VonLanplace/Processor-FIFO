@@ -9,7 +9,7 @@ public class No<T> {
 	public No(T content) {
 		this.next = null;
 		this.content = content;
-		this.bitR = false;
+		this.bitR = true;
 	}
 
 	public T getContent() {
