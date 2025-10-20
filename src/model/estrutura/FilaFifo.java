@@ -41,7 +41,6 @@ public class FilaFifo<T> {
 			this.first = node;
 		} else {
 			this.last().setNext(node);
-			node.setNext(null);
 		}
 		this.size++;
 	}
@@ -54,6 +53,12 @@ public class FilaFifo<T> {
 		this.first = first.getNext();
 		this.size--;
 
+		if (first.getBitR()) {
+			first.setNext(null);
+			first.setBitR(false);
+			this.enqueue(first);
+		}
+
 		return first;
 	}
 
@@ -62,7 +67,8 @@ public class FilaFifo<T> {
 			return;
 		}
 		No<T> first = this.first;
-		while (first != null) {
+
+		while (this.first == null) {
 			No<T> second = this.first.getNext();
 			this.first = second;
 			this.size--;
@@ -86,11 +92,11 @@ public class FilaFifo<T> {
 
 		StringBuilder builder = new StringBuilder("[");
 		No<T> buffer = this.first;
-		builder.append(buffer.getContent());
+		builder.append(buffer.toString());
 		while (buffer.getNext() != null) {
 			builder.append(",");
 			buffer = buffer.getNext();
-			builder.append(buffer.getContent());
+			builder.append(buffer.toString());
 		}
 		builder.append("]");
 		return builder.toString();
